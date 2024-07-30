@@ -1,4 +1,4 @@
-# Flask Webhook Application
+# Flask Webhook Application: Divyansh Jha
 
 This repository contains a Flask application designed to receive GitHub webhook events and send email notifications using Google SMTP.
 
