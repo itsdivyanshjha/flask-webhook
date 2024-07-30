@@ -24,13 +24,22 @@ def send_email(commit_data):
     receiver_email = os.getenv("RECEIVER_EMAIL", "jhadivyansh29@gmail.com")
     password = os.getenv("EMAIL_PASSWORD", "ooqx kxug dggr wqyn")
 
+    # Example details extracted from commit data
+    commit = commit_data['head_commit'] if 'head_commit' in commit_data else {}
+    author_name = commit.get('author', {}).get('name', 'Unknown')
+    commit_message = commit.get('message', 'No commit message provided.')
+    commit_url = commit.get('url', 'URL not provided')
+
     message = MIMEMultipart("alternative")
     message["Subject"] = "New Commit to Main Branch"
     message["From"] = sender_email
     message["To"] = receiver_email
 
-    # Assuming 'pusher' and 'name' keys exist in the commit data
-    text = f"New commit by {commit_data.get('pusher', {}).get('name', 'Unknown')} to the repository {commit_data.get('repository', {}).get('name', 'Unknown')}"
+    text = f"""
+    New commit by {author_name} to the repository {commit_data.get('repository', {}).get('name', 'Unknown')}
+    Commit Message: {commit_message}
+    View Commit: {commit_url}
+    """
     part = MIMEText(text, "plain")
     message.attach(part)
 
